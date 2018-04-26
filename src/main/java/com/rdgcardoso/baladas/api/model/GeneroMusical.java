@@ -18,6 +18,10 @@ public class GeneroMusical {
 	@NotEmpty(message = "Nome não pode ser vazio")
 	private String nome;
 	
+	public GeneroMusical() {
+		
+	}
+	
 	public Long getId() {
 		return id;
 	}

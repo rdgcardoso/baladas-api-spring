@@ -26,58 +26,61 @@ import com.rdgcardoso.baladas.api.repository.GeneroMusicalRepository;
 public class GeneroMusicalResource {
 
 	@Autowired
-	private GeneroMusicalRepository GeneroMusicalRepository;
+	private GeneroMusicalRepository generoMusicalRepository;
 
 	@PostMapping
-	public ResponseEntity<GeneroMusical> adicionar(@Valid @RequestBody GeneroMusical GeneroMusical) {
+	public ResponseEntity<GeneroMusical> adicionar(@Valid @RequestBody GeneroMusical generoMusical) {
 
-		GeneroMusical GeneroMusicalNovo = GeneroMusicalRepository.save(GeneroMusical);
+		GeneroMusical generoMusicalNovo = new GeneroMusical();
+		BeanUtils.copyProperties(generoMusical, generoMusicalNovo, "id");
+		generoMusicalNovo = generoMusicalRepository.save(generoMusicalNovo);
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(GeneroMusicalNovo);
+		return ResponseEntity.status(HttpStatus.CREATED).body(generoMusicalNovo);
 	}
 
 	@GetMapping
 	public List<GeneroMusical> listar() {
-		return GeneroMusicalRepository.findAll();
+		return generoMusicalRepository.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<GeneroMusical> buscar(@PathVariable Long id) {
-		Optional<GeneroMusical> GeneroMusical = GeneroMusicalRepository.findById(id);
+		Optional<GeneroMusical> generoMusical = generoMusicalRepository.findById(id);
 
-		if (!GeneroMusical.isPresent()) {
+		if (!generoMusical.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 
-		return ResponseEntity.ok(GeneroMusical.get());
+		return ResponseEntity.ok(generoMusical.get());
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<GeneroMusical> atualizar(@PathVariable Long id, @Valid @RequestBody GeneroMusical GeneroMusical) {
+	public ResponseEntity<GeneroMusical> atualizar(@PathVariable Long id,
+			@Valid @RequestBody GeneroMusical generoMusical) {
 
-		Optional<GeneroMusical> GeneroMusicalExistente = GeneroMusicalRepository.findById(id);
+		Optional<GeneroMusical> generoMusicalExistente = generoMusicalRepository.findById(id);
 
-		if (!GeneroMusicalExistente.isPresent()) {
+		if (!generoMusicalExistente.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 
-		GeneroMusical GeneroMusicalLocalizada = GeneroMusicalExistente.get();
+		GeneroMusical generoMusicalLocalizada = generoMusicalExistente.get();
 
-		BeanUtils.copyProperties(GeneroMusical, GeneroMusicalLocalizada, "id");
-		GeneroMusicalLocalizada = GeneroMusicalRepository.save(GeneroMusicalLocalizada);
-		return ResponseEntity.ok(GeneroMusicalLocalizada);
+		BeanUtils.copyProperties(generoMusical, generoMusicalLocalizada, "id");
+		generoMusicalLocalizada = generoMusicalRepository.save(generoMusicalLocalizada);
+		return ResponseEntity.ok(generoMusicalLocalizada);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> remover(@PathVariable Long id) {
 
-		Optional<GeneroMusical> GeneroMusical = GeneroMusicalRepository.findById(id);
+		Optional<GeneroMusical> generoMusical = generoMusicalRepository.findById(id);
 
-		if (!GeneroMusical.isPresent()) {
+		if (!generoMusical.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 
-		GeneroMusicalRepository.delete(GeneroMusical.get());
+		generoMusicalRepository.delete(generoMusical.get());
 		return ResponseEntity.noContent().build();
 	}
 }

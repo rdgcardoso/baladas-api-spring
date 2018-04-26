@@ -1,9 +1,12 @@
 package com.rdgcardoso.baladas.api.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -45,6 +48,13 @@ public class Balada {
 	private String telefone;
 	private String foto;
 	private boolean ativo;
+	
+	@ManyToMany
+	private List<GeneroMusical> genero_musical;
+	
+	public Balada() {
+		
+	}
 	
 	public Long getId() {
 		return id;
@@ -173,4 +183,14 @@ public class Balada {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
+
+	public List<GeneroMusical> getGenero_musical() {
+		return genero_musical;
+	}
+
+	public void setGenero_musical(List<GeneroMusical> genero_musical) {
+		this.genero_musical = genero_musical;
+	}		
+	
+	
 }

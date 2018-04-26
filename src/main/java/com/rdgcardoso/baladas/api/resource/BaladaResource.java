@@ -31,9 +31,11 @@ public class BaladaResource {
 	@PostMapping
 	public ResponseEntity<Balada> adicionar(@Valid @RequestBody Balada balada) {
 
-		Balada baladaNovo = baladasRepository.save(balada);
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(baladaNovo);
+		Balada baladaNova = new Balada();
+		BeanUtils.copyProperties(balada, baladaNova, "id");
+		baladaNova = baladasRepository.save(baladaNova);	
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(baladaNova);
 	}
 
 	@GetMapping
